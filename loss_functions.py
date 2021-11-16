@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 
+# Reference: The idea for Line 17 was taken from here: https://discuss.pytorch.org/t/how-to-write-custom-crossentropyloss/58072
 class CustomCrossEntropyLoss(nn.Module):
     def __init__(self):
         super().__init__()
@@ -11,13 +12,11 @@ class CustomCrossEntropyLoss(nn.Module):
 
         return numerator / denominator
 
-    def nll_loss(self, prediction):
-
-        return torch.log(self.soft_max(prediction))
+    def nll_loss(self, probabilities, label):
+            batch_size = probabilities.shape[0]
+            return -probabilities[range(batch_size), label].log().mean()
 
     def forward(self, prediction, label):
-        batch_size = prediction.shape[0]
-        outputs = self.nll_loss(prediction)
-        outputs = outputs[range(batch_size), label]
-        loss = - torch.sum(outputs) / batch_size
+        prob = self.soft_max(prediction)
+        loss = self.nll_loss(prob, label)
         return loss

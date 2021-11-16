@@ -2,19 +2,16 @@ DATA:
   data_path: None
 MODEL:
   model_name: model_weights.pth
-  pretrained: True
 VAL:
   validation: True
-  val_data: None  # Path to Val Data (default set through os in training script)
-  val_batch_size: 4
+  val_batch_size: 1
   val_patience: 2
 OPTIMIZATION:
   learning_rate: 0.001
-  batch_size: 8
+  batch_size: 64
   sche_decay_factor: 0.5
   sche_patience: 6
   sche_threshold: 0.001
-  num_epochs: 200
-  num_workers: 0
+  num_epochs: 10
 EVALUATION:
   plot: False

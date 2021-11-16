@@ -24,17 +24,14 @@ def add_random_noise(image, pixel_noise_probability=0.2):
 
 
     batch_size, c, height, width = image.shape
-    noisy_image = torch.zeros_like(image)
-    noisy_image = noisy_image.to("cuda")
     for bs in range(batch_size):
         for h in range(height):
             for w in range(width):
                 if random.random() < pixel_noise_probability:
-                    random_noise = torch.rand(1) * 1 + 0
+                    random_noise = torch.randn(1)
                     random_noise = random_noise.to("cuda")
-                    noisy_image[bs][0][h][w] = image[bs][0][h][w] + random_noise
+                    image[bs][0][h][w] = image[bs][0][h][w] + random_noise
                 else:
-                    noisy_image[bs][0][h][w] = image[bs][0][h][w]
+                    image[bs][0][h][w] = image[bs][0][h][w]
 
     return image
-    #return noisy_image
